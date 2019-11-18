@@ -1,29 +1,40 @@
 <template>
   <div class="home">
-    <img
-      alt="Vue logo"
-      src="../assets/logo.png"
-      @click="handleClick"
-    >
-    <HelloWorld msg="Welcome to Your Vue.js App" />
-    <Button text="haha" @click="handleClick"/>
+    <Button text="toast" @click="handleToast"/>
+    <Button text="dialog" bgColor="#999" @click="handleDialog"/>
+    <Dialog v-model="isShowDialog" @confirm="handleConfirm"/>
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
 import Button from '@/components/Button.vue'
+import Dialog from '@/components/Dialog/Dialog.vue'
 
 export default {
   name: 'home',
   components: {
-    HelloWorld,
-    Button
+    Button,
+    Dialog
+  },
+  data() {
+    return {
+      isShowDialog: false
+    }
   },
   methods: {
-    handleClick() {
+    handleToast() {
       this.$toast('别跑！明天请你吃饭',1000,()=>console.log('callback'))
+    },
+    handleDialog(){
+      console.log('handleDialog')
+      // this.isShowDialog = true;
+      this.$dialog('hahah')
+      console.log(this.isShowDialog)
+    },
+    handleConfirm(){
+      console.log('confirm')
+      this.isShowDialog = false
     }
   },
 }

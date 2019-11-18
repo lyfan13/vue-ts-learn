@@ -19,6 +19,7 @@ const vToast = {
       let newToast = new VueMessage()
       let vm = newToast.$mount()
       let el = vm.$el
+      console.log('toast',vm)
       vm.isShowToast = true
       document.body.appendChild(el) // 把生成的提示的dom插入body中
       let t1 = setTimeout(() => {
