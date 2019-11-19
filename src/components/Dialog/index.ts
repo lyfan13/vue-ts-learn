@@ -3,7 +3,6 @@ import Dialog from './Dialog.vue'
 const vDialog = {
   install(Vue: any) {
     Vue.component('Dialog', Dialog)
-
     function createDialog(content: string, callBack: any) {
       let VueDialog = Vue.extend({
         render(h: any) {
@@ -15,22 +14,30 @@ const vDialog = {
         },
       })
       let vm = new VueDialog().$mount()
-      vm.value = false
-      console.log('vm',vm)
       let el = vm.$el
-      console.log('el',el)
       document.body.appendChild(el) // 把生成的提示的dom插入body中
-      // callBack && (typeof callBack === 'function') && callBack()
+      let t2 = setTimeout(() => {
+        clearTimeout(t2)
+        el.classList.add('animate')
+        console.log('www',el,t2)
+      }, 100);
+      document.querySelectorAll('.btn')[1].addEventListener('click',(ev)=>{
+        ev.preventDefault()
+        el.classList.remove('animate')
+        let t3 = setTimeout(() => {
+          clearTimeout(t3)
+          document.body.removeChild(el)
+        }, 100);
+        callBack && callBack()
+      })
     }
-
-    // 挂载到vue原型上，暴露四个方法
-    // Vue.prototype.$dialog = (message: string, duration: number, callBack: any) => {
-    //   const hasToast = !!(document.querySelector('#v-toast'))
-    //   if(!hasToast) msg(message, duration, callBack)
-    // }
-    Vue.prototype.$dialog = (content:string,callBack:any)=>{
+    interface IDialog{
+      content:string,
+      callBack:any
+    }
+    Vue.prototype.$dialog = (obj:IDialog)=>{
       const hasDialog = !!(document.querySelector('#v-dialog'))
-      !hasDialog && createDialog(content,callBack)
+      !hasDialog && createDialog(obj.content,obj.callBack)
     }
   }
 }

@@ -1,5 +1,5 @@
 <template>
-  <div id="v-dialog" v-if="value" class="animate">
+  <div id="v-dialog" v-if="value">
     <div class="content">
       {{ content }}
     </div>
@@ -26,7 +26,7 @@ export default {
   data() {
     return {
       timer: null,
-      hahah:'hahahha'
+      isShowDialog:false
     };
   },
   watch: {

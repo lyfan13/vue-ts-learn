@@ -2,7 +2,7 @@
   <div class="home">
     <Button text="toast" @click="handleToast"/>
     <Button text="dialog" bgColor="#999" @click="handleDialog"/>
-    <Dialog v-model="isShowDialog" @confirm="handleConfirm"/>
+    <!-- <Dialog v-model="isShowDialog" @confirm="handleConfirm"/> -->
   </div>
 </template>
 
@@ -29,7 +29,10 @@ export default {
     handleDialog(){
       console.log('handleDialog')
       // this.isShowDialog = true;
-      this.$dialog('hahah')
+      this.$dialog({
+        content:'逗你玩',
+        callBack(){console.log('callback running')}
+      })
       console.log(this.isShowDialog)
     },
     handleConfirm(){
