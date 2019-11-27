@@ -24,6 +24,7 @@ export default {
 <style lang="scss" scoped>
 #v-toast {
   position: fixed;
+  z-index:5;
   top: 50%;
   left: 50%;
   // transform: ;
