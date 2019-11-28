@@ -1,26 +1,18 @@
 <template>
   <div class="home">
-    <img
-      alt="Vue logo"
-      src="../assets/logo.png"
-      @click="handleClick"
-    >
-    <Button text="haha" @click="handleClick"/>
-    <Button text="显示dialog" bgColor="#f84d90" @click="showDialog"/>
-    <Dialog v-if="isShowDialog" @cancel="isShowDialog = false" content="你好傻逼哈哈哈哈"/>
-    <i class="icon">&#xe8bf;</i>
+    <Button text="toast" @click="handleToast"/>
+    <Button text="dialog" bgColor="#999" @click="handleDialog"/>
+    <!-- <Dialog v-model="isShowDialog" @confirm="handleConfirm"/> -->
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
-import Button from '@/components/Button.vue'
 import Dialog from '@/components/Dialog/Dialog.vue'
 
 export default {
   name: 'home',
   components: {
-    Button,
     Dialog
   },
   data() {
@@ -29,12 +21,21 @@ export default {
     }
   },
   methods: {
-    handleClick() {
+    handleToast() {
       this.$toast('别跑！明天请你吃饭',1000,()=>console.log('callback'))
     },
-    showDialog(){
-      console.log('showDialog')
-      this.isShowDialog = true;
+    handleDialog(){
+      console.log('handleDialog')
+      // this.isShowDialog = true;
+      this.$dialog({
+        content:'逗你玩',
+        callBack(){console.log('callback running')}
+      })
+      console.log(this.isShowDialog)
+    },
+    handleConfirm(){
+      console.log('confirm')
+      this.isShowDialog = false
     }
   },
 }

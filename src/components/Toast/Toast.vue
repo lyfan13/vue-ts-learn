@@ -1,5 +1,5 @@
 <template>
-  <div id="toast" v-if="isShowToast">
+  <div id="v-toast" v-if="isShowToast">
     {{message}}
   </div>
 </template>
@@ -22,15 +22,21 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-#toast {
+#v-toast {
   position: fixed;
+  z-index:5;
   top: 50%;
   left: 50%;
-  transform: translate3d(-50%, -50%, 0);
+  // transform: ;
   padding: 10px 15px;
   text-align: center;
   border-radius: 4px;
   background: rgba(0,0,0,.6);
   color:white;
+  transform: translate3d(-50%, -50%, 0) scale(0);
+  transition: .1s;
+}
+.animate{
+  transform: translate3d(-50%, -50%, 0) scale(1) !important;
 }
 </style>

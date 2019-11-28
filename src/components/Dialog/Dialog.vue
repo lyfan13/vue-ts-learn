@@ -1,80 +1,89 @@
 <template>
-  <div id="Dialog">
-    <div class="container">
-      <p class="content">{{content}}</p>
-      <div class="btn-wrap">
-        <div class="btn cancel" @click="handleCancel">{{cancelText}}</div>
-        <div class="btn confirm" @click="handleConfirm">{{confirmText}}</div>
-      </div>
+  <div id="v-dialog" v-if="value">
+    <div class="content">
+      {{ content }}
+    </div>
+    <div class="btn-wrap">
+      <div class="btn cancel" @click="handleCancel">取消</div>
+      <div class="btn confirm" @click="handleConfirm">确定</div>
     </div>
   </div>
 </template>
 
 <script>
-  export default {
-    name:'Dialog',
-    props: {
-      confirmText: {
-        type: String,
-        default: '确定'
-      },
-      cancelText:{
-        type:String,
-        default:'取消'
-      },
-      content:{
-        type:String,
-        default:'确定不再考虑一下？'
-      },
-      duration:{
-        type:Number,
-        default:1000
-      }
+export default {
+  name: 'Dialog',
+  props: {
+    content: {
+      type: String,
+      default: '你真的确定吗？'
     },
-    methods: {
-      handleConfirm() {
-        this.$emit('on-confirm')
-      },
-      handleCancel(){
-        this.$emit('cancel')
+    value: {
+      type: Boolean,
+      default: false
+    }
+  },
+  data() {
+    return {
+      timer: null,
+      isShowDialog:false
+    };
+  },
+  watch: {
+    value(newValue, oldValue) {
+      if (newValue === true) {
+        this.timer = window.setTimeout(() => {
+          let el = document.querySelector('#v-dialog');
+          el && el.classList.add('animate');
+        }, 0);
+      }else if(newValue===false){
+        window.clearTimeout(this.timer)
+        this.timer = null
       }
     }
+  },
+  methods: {
+    handleConfirm() {
+      this.$emit('confirm');
+    },
+    handleCancel() {
+      this.$emit('cancel');
+    }
   }
+};
 </script>
 
 <style lang="scss" scoped>
-#Dialog{
+#v-dialog {
   position: fixed;
-  left: 0;
-  right: 0;
-  top:0;
-  bottom: 0;
-  background: rgba($color: #000000, $alpha: .6);
-}
-.container{
-  position: absolute;
-  top:50%;
-  left:50%;
-  transform: translate3d(-50%,-50%,0);
-  background: white;
+  top: 50%;
+  left: 50%;
+  transform: translate3d(-50%, -50%, 0) scale(0);
+  transition: 0.1s;
+  padding: 12px;
+  color: white;
+  // background: rgba($color: green, $alpha: .3);
+  background: #ff7477;
   border-radius: 8px;
-  font-size: 15px;
-}
-.content{
-  padding: 25px 20px;
-  text-align: center;
-  border-bottom: 1px solid #ddd;
-}
-.btn-wrap{
   display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
-.btn{
-  flex:1;
+.animate {
+  transform: translate3d(-50%, -50%, 0) scale(1) !important;
+}
+.btn-wrap {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  margin-top: 10px;
   text-align: center;
-  padding: 12px 0;
 }
-.cancel{
-  color:#999;
-  border-right: 1px solid #ddd;
+.btn {
+  flex: 1;
+}
+.cancel {
+  color: black;
 }
 </style>
